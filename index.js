@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const methodOverride = require('method-override');
+const session = require('express-session');
+
 
 
 // import jsx view engine
@@ -29,7 +31,7 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 const userRoutes = require('./routes/users');
 const signupRoutes = require('./routes/signup');
 const loginRoutes = require('./routes/login');
-
+const studentsRoutes = require('./routes/students');
 
 app.get('/system', (req, res) => {  
     res.render('Homepage/Home')
@@ -38,6 +40,7 @@ app.get('/system', (req, res) => {
 app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
 app.use('/system', loginRoutes);
+app.use('/system',studentsRoutes);
 
 
 // import authentication
