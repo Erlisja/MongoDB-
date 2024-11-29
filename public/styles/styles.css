@@ -1,0 +1,86 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background: radial-gradient(
+        circle at top right, /* Starts at the top right */
+        #ecb236f5   ,         /* Inner color */
+        rgb(252, 252, 252) 80%,      /* Midpoint color (50% of the gradient's radius) */
+        transparent 100%/* Outer color (transparent for full fade) */
+      );
+    
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  #bg-image { 
+    /* The image used */
+    background-image: url("../images/background1.jpg");
+  
+    /* Center and scale the image nicely */
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 80% 100%;
+    flex: 1;
+    height: 100%;
+  }
+  
+  .content {
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    padding: 20px;
+    justify-content: center;
+    /* align-content: center; */
+    justify-items: center;
+  }
+
+
+  footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+  }
+
+.content .headers{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: larger;
+    font-weight: bold;
+    margin-top: 50px;
+    justify-items: space-around;
+}
+
+#logo{
+    width: 100px;
+    height: 100px;
+    margin-left: 40%;
+    margin-top: 10%;
+    border-radius: 20px;
+    align-content: center;
+    margin: auto;
+    }
+
+button{
+    background-color: #f4c266;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px solid #090704;
+    cursor: pointer;
+    width: 100%;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+button:hover {
+    opacity: 0.6;
+}
