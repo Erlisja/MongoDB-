@@ -149,3 +149,73 @@ header {
     margin-top: 20px;
     margin-bottom: 20px;
  }
+
+
+/*# the student dashboard */
+
+.dashboard-container {
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.courses, .past-courses {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 70%;
+}
+
+.courses h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+.add-courses {
+    display: flex;
+    flex-direction: column;
+    margin-left: 100px;
+    width: 30%;
+
+}
+
+.course-item {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid #090704;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+
+}
+
+.course-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+
+}
+
+.drop-course{
+    background-color: #c01600;
+    color: white;
+    padding: 10px 10px;
+    margin: 8px auto 8 px 15px;
+    border: 2px solid #090704;
+    cursor: pointer;
+    width: 100%;
+    font-size: 12px;
+    border-radius: 10px;
+}
+
+
+form {
+    margin-top: 10px;
+
+}

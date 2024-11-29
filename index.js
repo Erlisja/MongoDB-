@@ -3,9 +3,17 @@ const app = express();
 const PORT = 3000;
 const methodOverride = require('method-override');
 const session = require('express-session');
+require('dotenv').config(); // import and configure dotenv
 
+// Session setup
+app.use(session({
+    secret: 'SECRET_KEY',  
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }  
+  }));
 
-
+  
 // import jsx view engine
 const jsxViewEngine = require('jsx-view-engine');
 app.set('view engine', 'jsx');
@@ -31,7 +39,7 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 const userRoutes = require('./routes/users');
 const signupRoutes = require('./routes/signup');
 const loginRoutes = require('./routes/login');
-const studentsRoutes = require('./routes/students');
+const studentsRoutes = require('./routes/student');
 
 app.get('/system', (req, res) => {  
     res.render('Homepage/Home')
