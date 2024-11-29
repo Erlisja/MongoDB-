@@ -14,11 +14,15 @@ const router = express.Router();
     if(req.body.email){
         const user = users.find(user => user.email === req.body.email);
         if(user){
-            return res.status(400).send('User with the email already exists');
+            res.render('Signup/SignupFail');
         }else{
+            // add the new user to the users array
+            //id
+            let id = users.length + 1;
+            req.body.id = id;
             const newUser = req.body;
             users.push(newUser);
-            res.status(201).json(users);
+            res.render('Signup/SignupSuccess');
         }
     }
 

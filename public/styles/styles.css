@@ -10,11 +10,17 @@ body {
       );
     
     font-family: 'Roboto', sans-serif;
+
   }
   
   .container {
     display: flex;
     height: 100vh;
+  
+  }
+.signup {
+    display: flex;
+    flex-direction: column;
   }
   
   #bg-image { 
@@ -84,3 +90,62 @@ button{
 button:hover {
     opacity: 0.6;
 }
+
+#form-div{
+    justify-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    /* background-color: #f4c266; */
+    background: linear-gradient(90deg,rgb(234, 216, 182),rgb(231, 205, 157), #ebc47c);
+    width: 50%;
+    margin: 5px auto;
+}
+label{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+input[type=text], input[type=password], input[type=email], select {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 2px solid #090704;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+#backButton{
+    justify-content: flex-start;
+    background-color: #f4c266;
+    color: white;
+    padding: 10px 15px;
+    margin: 8px auto 8 px 15px;
+    border: 2px solid #090704;
+    cursor: pointer;
+    width: 100%;
+    font-size: 20px;
+    border-radius: 10px;
+}
+ header h1{
+    justify-content: center;
+    margin: auto;
+ }
+
+.fail{
+    color: red;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+ }

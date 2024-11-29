@@ -28,12 +28,16 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 // import routes
 const userRoutes = require('./routes/users');
 const signupRoutes = require('./routes/signup');
+const loginRoutes = require('./routes/login');
+
 
 app.get('/system', (req, res) => {  
     res.render('Homepage/Home')
 });
+
 app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
+app.use('/system', loginRoutes);
 
 
 // import authentication
