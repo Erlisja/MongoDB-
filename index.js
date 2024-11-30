@@ -40,16 +40,23 @@ const userRoutes = require('./routes/users');
 const signupRoutes = require('./routes/signup');
 const loginRoutes = require('./routes/login');
 const studentsRoutes = require('./routes/student');
+const adminRoutes = require('./routes/admin');
+const adminDashboardRoutes = require('./routes/adminDashboard');
+
 
 app.get('/system', (req, res) => {  
     res.render('Homepage/Home')
 });
 
 
+
 app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
 app.use('/system', loginRoutes);
 app.use('/system',studentsRoutes);
+app.use('/system/admin',adminRoutes);
+app.use('/system/admin',adminDashboardRoutes);
+
 
 
 // import authentication
