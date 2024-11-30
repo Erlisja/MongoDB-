@@ -34,10 +34,9 @@ class Home extends React.Component {
             </a>
             <br /> <br />
             <a href="/system/admin/login">
-              <button type="button" name="signupButton" id="signup">
                 {" "}
-                admin
-              </button>
+            Access the system as an Admin{" "}
+         
             </a>
           </div>{" "}
           </div>
