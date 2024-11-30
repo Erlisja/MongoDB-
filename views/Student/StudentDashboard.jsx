@@ -20,10 +20,16 @@ class StudentDashboard extends React.Component {
           <title>Course Enrollment System</title>
           <link rel="stylesheet" href="../styles/styles.css" />
         </head>
-
-        <div className="dashboard-container">
+        <header>
           <h1>Welcome, {student.name}!</h1>
-
+          {/* logout button */}
+          <a href="/system/login">
+            <button id="logoutButton" type="button">
+              Logout
+            </button>
+          </a>
+        </header>
+        <div className="dashboard-container">
           {/* Upcoming Courses Section */}
           <div className="section upcoming-courses">
             <div className="section courses">
@@ -38,7 +44,7 @@ class StudentDashboard extends React.Component {
                         <p>Credits: {course.credits}</p>
                       </div>
                       {/* Form to drop a course */}
-                      <form action="/drop-course" method="DELETE">
+                      <form action="/system/student?_method=DELETE" method="POST">
                         <input
                           type="hidden"
                           name="courseId"
@@ -57,7 +63,7 @@ class StudentDashboard extends React.Component {
             </div>
             <div className="section add-courses">
               {/* Add course form */}
-              <form action="/add-course" method="POST">
+              <form action="/system/student" method="POST">
                 <label>Select a course to add:</label>
                 <select name="courseId">
                   {availableCourses.map((course) => (
@@ -90,7 +96,9 @@ class StudentDashboard extends React.Component {
                           new Date(course.startDate).setMonth(
                             new Date(course.startDate).getMonth() + 3
                           )
-                        ).toISOString().slice(0, 10)}
+                        )
+                          .toISOString()
+                          .slice(0, 10)}
                       </p>
                     </div>
                   </li>
@@ -101,6 +109,9 @@ class StudentDashboard extends React.Component {
             )}
           </div>
         </div>
+        <footer>
+          <p>Course Enrollment System &copy; 2024</p>
+        </footer>
       </>
     );
   }

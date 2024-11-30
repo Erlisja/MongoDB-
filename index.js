@@ -45,6 +45,7 @@ app.get('/system', (req, res) => {
     res.render('Homepage/Home')
 });
 
+
 app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
 app.use('/system', loginRoutes);
