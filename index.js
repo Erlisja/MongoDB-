@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 const methodOverride = require('method-override');
 const session = require('express-session');
 require('dotenv').config(); // import and configure dotenv
+
+// import mongoose
+const mongoose = require('mongoose');
+const db = require('./db/conn');
 
 // Session setup
 app.use(session({
@@ -37,11 +41,11 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 
 // import routes
 const userRoutes = require('./routes/users');
-const signupRoutes = require('./routes/signup');
-const loginRoutes = require('./routes/login');
-const studentsRoutes = require('./routes/student');
-const adminRoutes = require('./routes/admin');
-const adminDashboardRoutes = require('./routes/adminDashboard');
+// const signupRoutes = require('./routes/signup');
+// const loginRoutes = require('./routes/login');
+// const studentsRoutes = require('./routes/student');
+// const adminRoutes = require('./routes/admin');
+// const adminDashboardRoutes = require('./routes/adminDashboard');
 
 
 app.get('/system', (req, res) => {  
@@ -50,12 +54,13 @@ app.get('/system', (req, res) => {
 
 
 
-app.use('/system',signupRoutes);
-app.use('/system', userRoutes);
-app.use('/system', loginRoutes);
-app.use('/system',studentsRoutes);
-app.use('/system/admin',adminRoutes);
-app.use('/system/admin',adminDashboardRoutes);
+// app.use('/system',signupRoutes);
+app.use('/user', userRoutes);
+// app.use('/system', loginRoutes);
+// app.use('/system',studentsRoutes);
+// app.use('/system/admin',adminRoutes);
+// app.use('/system/admin',adminDashboardRoutes);
+
 
 
 
