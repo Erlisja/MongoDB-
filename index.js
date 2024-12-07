@@ -42,11 +42,11 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 
 // import routes
 const userRoutes = require('./routes/users');
-// const signupRoutes = require('./routes/signup');
-// const loginRoutes = require('./routes/login');
+const signupRoutes = require('./routes/signup');
+const loginRoutes = require('./routes/login');
 const studentsRoutes = require('./routes/student');
-// const adminRoutes = require('./routes/admin');
-// const adminDashboardRoutes = require('./routes/adminDashboard');
+const adminRoutes = require('./routes/admin');
+const adminDashboardRoutes = require('./routes/adminDashboard');
 const populateRoute = require('./routes/populate');
 
 
@@ -56,19 +56,20 @@ app.get('/system', (req, res) => {
 
 
 
-// app.use('/system',signupRoutes);
+app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
-// app.use('/system', loginRoutes);
+app.use('/system', loginRoutes);
 app.use('/system',studentsRoutes);
-// app.use('/system/admin',adminRoutes);
-// app.use('/system/admin',adminDashboardRoutes);
+app.use('/system/admin',adminRoutes);
+app.use('/system/admin',adminDashboardRoutes);
 app.use('/populate',populateRoute);
 
 
 
 
+
 // import authentication
-//app.use(require('./middleware/authentication')); 
+app.use(require('./middleware/authentication')); 
 
 
 app.listen(PORT,()=>{

@@ -76,50 +76,82 @@ router.route('/users')
 
 
 // populate the database with some students for testing purposes
+// Seeding the Student collection
+// Seeding the Student collection
 router.route('/students')
     .get(async (req, res) => {
-        console.log('Populating the database with students');
         try {
-            await Student.create([
+            // Clear the Student collection first
+            await Student.deleteMany({});
+
+            // Predefined users
+            const predefinedUsers = [
+                { username: 'JohnDoe', email: 'john@gmail.com', password: '1234', role: 'student' },
+                { username: 'JaneDoe', email: 'jdoe@gmail.com', password: '1234', role: 'student' },
+                { username: 'TomSmith', email: 'tomsmith@outlook.com', password: '1234', role: 'student' },
+                { username: 'DavidCole', email: 'davcole23@gmail.com', password: '1234', role: 'student' },
+                { username: 'SamuelAdams', email: 'adams1234@yahoo.com', password: '1234', role: 'student' },
+            ];
+
+            // Ensure Users exist (find or create)
+            const userMap = {};
+            for (const user of predefinedUsers) {
+                let existingUser = await User.findOne({ email: user.email });
+                if (!existingUser) {
+                    // Create the user if not found
+                    existingUser = await User.create(user);
+                }
+                userMap[user.email] = existingUser._id;
+            }
+
+            // Define students with `userId` referencing the `User` `_id`
+            const students = [
                 {
+                    userId: userMap['john@gmail.com'],
                     name: 'John Doe',
                     email: 'john@gmail.com',
                     password: '1234',
-                    enrolledCourses: [5001,5003,5006,5007,5008,5009,5010]
+                    enrolledCourses: [5001, 5003, 5006, 5007, 5008, 5009, 5010],
                 },
                 {
+                    userId: userMap['jdoe@gmail.com'],
                     name: 'Jane Doe',
                     email: 'jdoe@gmail.com',
                     password: '1234',
-                    enrolledCourses: [5001,5003,5006,5007]
+                    enrolledCourses: [5001, 5003, 5006, 5007],
                 },
                 {
+                    userId: userMap['tomsmith@outlook.com'],
                     name: 'Tom Smith',
                     email: 'tomsmith@outlook.com',
                     password: '1234',
-                    enrolledCourses: [5002,5004,5005,5009,5010,5011]
+                    enrolledCourses: [5002, 5004, 5005, 5009, 5010, 5011],
                 },
                 {
+                    userId: userMap['davcole23@gmail.com'],
                     name: 'David Cole',
                     email: 'davcole23@gmail.com',
                     password: '1234',
-                    enrolledCourses: [5003,5015,5007,5008]
+                    enrolledCourses: [5003, 5015, 5007, 5008],
                 },
                 {
+                    userId: userMap['adams1234@yahoo.com'],
                     name: 'Samuel Adams',
                     email: 'adams1234@yahoo.com',
                     password: '1234',
-                    enrolledCourses: [5004,5005,5013,5009,5010]
-                }
-            ]);
-            res.status(200).send('Students added successfully');
-        } catch (error) {
-            console.error('Error adding students:', error);
-            res.status(500).send('Error adding students');
-        }
-    }
-);
+                    enrolledCourses: [5004, 5005, 5013, 5009, 5010],
+                },
+            ];
 
+            // Insert the students
+            await Student.insertMany(students);
+
+            res.status(200).send('Students have been seeded successfully');
+        } catch (error) {
+            console.error('Error seeding students:', error);
+            res.status(500).send('Failed to seed students');
+        }
+    });
 
 // populate the database with some courses for testing purposes
 
@@ -242,6 +274,23 @@ router.route('/courses')
     }
 }
 );
+
+
+
+
+
+// Route to clear the Student collection
+router.route('/students/clear')
+    .get(async (req, res) => {
+        try {
+            await Student.deleteMany({});
+            res.status(200).send('All students have been deleted');
+        } catch (error) {
+            console.error('Error clearing the student collection:', error);
+            res.status(500).send('Failed to clear the student collection');
+        }
+    });
+
 
 module.exports = router;
 
