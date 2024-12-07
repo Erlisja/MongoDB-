@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const db = require('./db/conn');
 
 // Session setup
+// this is the session middleware that will be used to create a session for the user
 app.use(session({
     secret: 'SECRET_KEY',  
     resave: false,
@@ -43,9 +44,10 @@ app.use(require('./middleware/logger')); // import and use the logger middleware
 const userRoutes = require('./routes/users');
 // const signupRoutes = require('./routes/signup');
 // const loginRoutes = require('./routes/login');
-// const studentsRoutes = require('./routes/student');
+const studentsRoutes = require('./routes/student');
 // const adminRoutes = require('./routes/admin');
 // const adminDashboardRoutes = require('./routes/adminDashboard');
+const populateRoute = require('./routes/populate');
 
 
 app.get('/system', (req, res) => {  
@@ -55,11 +57,12 @@ app.get('/system', (req, res) => {
 
 
 // app.use('/system',signupRoutes);
-app.use('/user', userRoutes);
+app.use('/system', userRoutes);
 // app.use('/system', loginRoutes);
-// app.use('/system',studentsRoutes);
+app.use('/system',studentsRoutes);
 // app.use('/system/admin',adminRoutes);
 // app.use('/system/admin',adminDashboardRoutes);
+app.use('/populate',populateRoute);
 
 
 

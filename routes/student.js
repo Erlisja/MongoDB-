@@ -5,7 +5,6 @@ const students = require('../data/students');
 const courses = require('../data/courses');
 
 
-
 routes.route('/student')
     .get((req, res) => {
         if (!req.session.studentId) {

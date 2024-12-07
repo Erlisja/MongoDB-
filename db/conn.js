@@ -6,11 +6,13 @@ dotenv.config();
 const mongoURI = process.env.MONGO_URI;
 const db = mongoose.connection;
 
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    connectTimeoutMS: 30000
-})
+mongoose.connect(mongoURI)
+// mongoose.connect(mongoURI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     connectTimeoutMS: 30000
+// })
+
 .then(() => {
     console.log('Connected to MongoDB');
 })
