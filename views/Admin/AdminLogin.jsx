@@ -19,8 +19,8 @@ class AdminLogin extends React.Component {
           <div className="container signup">
             <div id="form-div">
               <form action="/system/admin/login" method="POST">
-                <label for="name">Username:</label>
-                <input type="text" id="name" name="name" required></input>
+                <label htmlFor="username">Username:</label>
+                <input type="text" id="username" name="username" required></input>
                 <br></br>
                 <label for="password">Password:</label>
                 <input

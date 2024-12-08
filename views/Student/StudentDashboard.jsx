@@ -43,47 +43,58 @@ class StudentDashboard extends React.Component {
         <div className="dashboard-container">
           {/* Upcoming Courses Section */}
           <div className="section upcoming-courses">
-          <div className="section courses">
-            <h2>Upcoming Courses</h2>
-            {upcomingCourses.length > 0 ? (
-              <ul>
-                {upcomingCourses.map((course) => (
-                  <li key={course._id} className="course-item">
-                    <div className="course-details">
-                      <h3>{course.name}</h3>
-                      <p>Starting Date: {formatDate(course.startDate)}</p>
-                      <p>Credits: {course.credits}</p>
-                    </div>
-                    <form action="/system/student?_method=DELETE" method="POST">
-                      <input type="hidden" name="courseId" value={course._id} />
-                      <button type="submit" className="drop-course">
-                        Drop Course
-                      </button>
-                    </form>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No upcoming courses.</p>
-            )}
-          </div>
+            <div className="section courses">
+              <h2>Upcoming Courses</h2>
+              {upcomingCourses.length > 0 ? (
+                <ul>
+                  {upcomingCourses.map((course) => (
+                    <li key={course._id} className="course-item">
+                      <div className="course-details">
+                        <h3>{course.name}</h3>
+                        <p>Starting Date: {formatDate(course.startDate)}</p>
+                        <p>Credits: {course.credits}</p>
+                      </div>
+                      <form
+                        action= "/system/student"
+                        method="DELETE"
+                        onsubmit="return confirm('Are you sure you want to drop this course?')"
+                      >
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <input
+                          type="hidden"
+                          name="courseId"
+                          value={course._id}
+                        />
+                        <button type="submit" className="drop-course">
+                          Drop Course
+                        </button>
+                      </form>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No upcoming courses.</p>
+              )}
+            </div>
 
-          <div className="section add-courses">
-            <h2>Add Courses</h2>
-            <form action="/system/student" method="POST">
-              <label>Select a course to add:</label>
-              <select name="courseId">
-                {availableCourses.map((course) => (
-                  <option key={course._id} value={course._id}>
-                    {course.name}
-                  </option>
-                ))}
-              </select>
-              <button type="submit" className="add-course">
-                Add Course
-              </button>
-            </form>
-          </div>
+            <div className="section add-courses">
+              <h2>Add Courses</h2>
+              <form action="/system/student" method="POST">
+                <input type="hidden" name="_method" value="POST" />
+
+                <label>Select a course to add:</label>
+                <select name="courseId">
+                  {availableCourses.map((course) => (
+                    <option key={course._id} value={course._id}>
+                      {course.name}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="add-course">
+                  Add Course
+                </button>
+              </form>
+            </div>
           </div>
 
           {/* Past Courses Section */}

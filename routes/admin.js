@@ -5,10 +5,6 @@ const User = require('../model/userModel');
 
 
 
-// const students = require('../data/students');
-// const courses = require('../data/courses');
-// const users = require('../data/users');
-
 // Admin login
 routes.route('/login')
     .get((req, res) => {
@@ -17,34 +13,41 @@ routes.route('/login')
     .post(async (req, res) => {
         try {
             const { username, password } = req.body;
-            // Query the database for the user with the role admin (admin)
-            const user = await User.find({ username, password, role: 'admin' });
 
-            if (user) {
-                req.session.userId = user.id;   // Store user ID in session
-                return res.redirect('/system/admin/dashboard');
+            // Validate email and password
+            if (!username || !password) {
+                return res.status(400).send('Email and password are required');
             }
-            // if the admin is not found
-            res.status(401).send('Invalid username or password');
 
+            // Query the database for the user with the email
+            const user = await User.findOne({ username });
 
+            // If user not found
+            if (!user) {
+                return res.status(400).send('User with the email does not exist. Please go back to the Signup page!');
+            }
 
+            // Compare the plain-text password with the stored password
+            if (user.password !== password) {
+                return res.status(400).send('Incorrect password. Please try again!');
+            }
+
+            // Store user ID in session
+            req.session.userId = user._id;
+
+            // Role-based redirection
+            if (user.role === 'admin') {
+                return res.status(200).redirect('/system/admin/dashboard');
+            } else {
+                return res.status(400).send('Unauthorized');
+            }
         } catch (error) {
-            console.log("error during admin login", error);
-            res.status(400).send('Internal server error');
+            console.error(error);
+            res.status(500).send('Internal server error');
         }
+       
+        
 
-
-
-        // const { username, password } = req.body;
-        // const user = users.find(u => u.name === username && u.password === password && u.role === 'admin');
-
-        // if (user) {
-        //     req.session.userId = user.id; // Store user ID in session
-        //     return res.redirect('/system/admin/dashboard'); // Redirect to dashboard
-        // }
-
-        // res.status(401).send('Invalid username or password');
     });
 
 

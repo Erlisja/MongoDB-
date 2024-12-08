@@ -1,10 +1,15 @@
 const React = require("react");
 
+
 class AdminDashboard extends React.Component {
   render() {
     const {
-      courses = require("../../data/courses"),
-      users = require("../../data/users"),
+
+      courses,
+      users, 
+
+
+      
     } = this.props;
 
     return (

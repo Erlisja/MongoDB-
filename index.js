@@ -59,7 +59,7 @@ app.get('/system', (req, res) => {
 app.use('/system',signupRoutes);
 app.use('/system', userRoutes);
 app.use('/system', loginRoutes);
-app.use('/system',studentsRoutes);
+app.use('/system',studentsRoutes);;
 app.use('/system/admin',adminRoutes);
 app.use('/system/admin',adminDashboardRoutes);
 app.use('/populate',populateRoute);
