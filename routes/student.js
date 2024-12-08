@@ -12,8 +12,7 @@ function validateSession(req, res, next) {
     next();
 }
 
-// // Apply session validation middleware
-// routes.use('/student', validateSession);
+
 
 // Get the student dashboard
 routes.get('/student', async (req, res) => {
@@ -22,8 +21,9 @@ routes.get('/student', async (req, res) => {
         if (!student) return res.status(400).send('Student not found');
 
         const enrolledCourseIds = student.enrolledCourses.map(course => course._id);
-        const availableCourses = await Course.find({ id: { $nin: enrolledCourseIds } });
+        const availableCourses = await Course.find({ _id: { $nin: enrolledCourseIds } });
 
+        req.session.studentId = student._id;
         return res.render('Student/StudentDashboard', {
             student,
             enrolledCourses: student.enrolledCourses,
@@ -38,7 +38,7 @@ routes.get('/student', async (req, res) => {
 // Drop a course
 routes.delete('/student', async (req, res) => {
     try {
-        const student = await Student.findOne({ id: req.session.studentId });
+        const student = await Student.findOne({ _id: req.session.studentId });
         if (!student) return res.status(400).send('Student not found');
 
         const courseId = req.body.courseId;
@@ -69,9 +69,10 @@ routes.delete('/student', async (req, res) => {
 // Add a course
 routes.post('/student', async (req, res) => {
     try {
-        const student = await Student.findOne({ id: req.session.studentId });
+        // Find the student
+        const student = await Student.findOne({ _id: req.session.studentId });
         if (!student) return res.status(400).send('Student not found');
-
+        // Find the course
         const courseId = req.body.courseId;
         if (!courseId) return res.status(400).send('Course ID is required');
 
@@ -85,10 +86,10 @@ routes.post('/student', async (req, res) => {
         if (student.enrolledCourses.includes(courseToAdd._id)) {
             return res.status(400).send('You are already enrolled in this course');
         }
-
+        // Add the course to the student's enrolled courses
         student.enrolledCourses.push(courseToAdd._id);
         await student.save();
-
+        // Get the updated enrolled courses and available courses
         const enrolledCourses = await Course.find({ _id: { $in: student.enrolledCourses } });
         const availableCourses = await Course.find({ _id: { $nin: student.enrolledCourses } });
 

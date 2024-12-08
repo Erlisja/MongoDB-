@@ -14,9 +14,7 @@ async function applyIndexes() {
         // Apply indexes
         await User.createIndexes();
         console.log('Indexes ensured');
-        // Apply unique index
-        await Course.createIndexes();
-        console.log('Indexes applied successfully');
+      
 
         // Close the connection
         await mongoose.disconnect();

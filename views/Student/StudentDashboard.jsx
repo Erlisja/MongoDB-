@@ -2,16 +2,28 @@ const React = require("react");
 
 class StudentDashboard extends React.Component {
   render() {
-    const { student, enrolledCourses = [], availableCourses = [] } = this.props; // Default empty arrays
+    const { student, enrolledCourses = [], availableCourses = [] } = this.props;
 
     const today = new Date();
+
+    // Helper function to format dates
+    const formatDate = (date) => {
+      const parsedDate = new Date(date);
+      return isNaN(parsedDate.getTime())
+        ? "Invalid Date"
+        : parsedDate.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+    };
 
     // Filter upcoming and past courses
     const upcomingCourses = enrolledCourses.filter(
       (course) => new Date(course.startDate) > today
     );
     const pastCourses = enrolledCourses.filter(
-      (course) => new Date(course.startDate) < today
+      (course) => new Date(course.startDate) <= today
     );
 
     return (
@@ -21,8 +33,7 @@ class StudentDashboard extends React.Component {
           <link rel="stylesheet" href="../styles/styles.css" />
         </head>
         <header>
-          <h1>Welcome, {student.name}!</h1>
-          {/* logout button */}
+          <h1>Welcome, {student.username}!</h1>
           <a href="/system/login">
             <button id="logoutButton" type="button">
               Logout
@@ -32,51 +43,47 @@ class StudentDashboard extends React.Component {
         <div className="dashboard-container">
           {/* Upcoming Courses Section */}
           <div className="section upcoming-courses">
-            <div className="section courses">
-              <h2>Upcoming Courses</h2>
-              {upcomingCourses.length > 0 ? (
-                <ul>
-                  {upcomingCourses.map((course) => (
-                    <li key={course.id} className="course-item">
-                      <div className="course-details">
-                        <h3>{course.name}</h3>
-                        <p>Starting Date: {course.startDate}</p>
-                        <p>Credits: {course.credits}</p>
-                      </div>
-                      {/* Form to drop a course */}
-                      <form action="/system/student?_method=DELETE" method="POST">
-                        <input
-                          type="hidden"
-                          name="courseId"
-                          value={course.id}
-                        />
-                        <button type="submit" className="drop-course">
-                          Drop Course
-                        </button>
-                      </form>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No upcoming courses.</p>
-              )}
-            </div>
-            <div className="section add-courses">
-              {/* Add course form */}
-              <form action="/system/student" method="POST">
-                <label>Select a course to add:</label>
-                <select name="courseId">
-                  {availableCourses.map((course) => (
-                    <option key={course.id} value={course.id}>
-                      {course.name}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className="add-course">
-                  Add Course
-                </button>
-              </form>
-            </div>
+          <div className="section courses">
+            <h2>Upcoming Courses</h2>
+            {upcomingCourses.length > 0 ? (
+              <ul>
+                {upcomingCourses.map((course) => (
+                  <li key={course._id} className="course-item">
+                    <div className="course-details">
+                      <h3>{course.name}</h3>
+                      <p>Starting Date: {formatDate(course.startDate)}</p>
+                      <p>Credits: {course.credits}</p>
+                    </div>
+                    <form action="/system/student?_method=DELETE" method="POST">
+                      <input type="hidden" name="courseId" value={course._id} />
+                      <button type="submit" className="drop-course">
+                        Drop Course
+                      </button>
+                    </form>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No upcoming courses.</p>
+            )}
+          </div>
+
+          <div className="section add-courses">
+            <h2>Add Courses</h2>
+            <form action="/system/student" method="POST">
+              <label>Select a course to add:</label>
+              <select name="courseId">
+                {availableCourses.map((course) => (
+                  <option key={course._id} value={course._id}>
+                    {course.name}
+                  </option>
+                ))}
+              </select>
+              <button type="submit" className="add-course">
+                Add Course
+              </button>
+            </form>
+          </div>
           </div>
 
           {/* Past Courses Section */}
@@ -85,20 +92,17 @@ class StudentDashboard extends React.Component {
             {pastCourses.length > 0 ? (
               <ul>
                 {pastCourses.map((course) => (
-                  <li key={course.id} className="course-item">
+                  <li key={course._id} className="course-item">
                     <div className="course-details">
                       <h3>{course.name}</h3>
-                      {/* add three months to the start date */}
-                      <p>Starting Date: {course.startDate}</p>
+                      <p>Starting Date: {formatDate(course.startDate)}</p>
                       <p>
                         Ending Date:{" "}
-                        {new Date(
+                        {formatDate(
                           new Date(course.startDate).setMonth(
                             new Date(course.startDate).getMonth() + 3
                           )
-                        )
-                          .toISOString()
-                          .slice(0, 10)}
+                        )}
                       </p>
                     </div>
                   </li>

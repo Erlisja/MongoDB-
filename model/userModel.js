@@ -18,8 +18,10 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        enum: ['admin', 'student','teacher'],
         required: true
-    }
+    },
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },  // reference to Student model
 });
 
 const User = mongoose.model('User', userSchema);
