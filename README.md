@@ -67,13 +67,13 @@ The application uses three main data collections:
   `system/admin/courses`
 
 #### DELETE Routes
-  `system/admin//courses/:id`
+  `system/admin/courses/:id`
 
 #### PATCH Routes
-  `system/admin//courses/:id`
+  `system/admin/courses/:id`
 
 #### PUT Routes
-  `system/admin//courses/:id`
+  `system/admin/courses/:id`
 
 ## Performance Optimizations
 
