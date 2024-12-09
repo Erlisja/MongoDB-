@@ -19,8 +19,8 @@ class Signup extends React.Component {
           <div className="container signup">
             <div id="form-div">
               <form action="/system/signup" method="POST">
-                <label for="name">Username:</label>
-                <input type="text" id="name" name="name" required></input>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required></input>
                 <br></br>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required></input>
@@ -37,7 +37,7 @@ class Signup extends React.Component {
                 <select id="role" name="role" required>
                   <option value="">Select Role</option>
                   <option value="student">Student</option>
-                  <option value="faculty">Instructor</option>
+                  <option value="teacher">Teacher</option>
                 </select>
                 <br></br>
                 <button type="submit">Sign Up</button>

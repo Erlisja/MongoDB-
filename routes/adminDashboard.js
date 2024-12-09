@@ -109,11 +109,25 @@ routes.route("/users/:id")
       { new: true }
     );
 
-    if (updatedUser) {
-      res.redirect('/system/admin/dashboard');
+    // Check if the role has changed to 'student'
+    if (role === 'student') {
+      // Add the user to the Student collection if not already present
+      const studentExists = await Student.findOne({ userId: updatedUser._id });
+
+      if (!studentExists) {
+        const student = new Student({
+          userId: updatedUser._id,
+          username: updatedUser.username,
+          email: updatedUser.email,
+        });
+        await student.save();
+      }
     } else {
-      res.status(404).json({ error: "User not found" });
+      // If the role is not 'student', the user is removed from the Student collection if present
+      await Student.deleteOne({ userId: updatedUser._id });
     }
+
+      res.redirect('/system/admin/dashboard');
   }catch(error){
     console.log('error during updating user', error);
     res.status(500).send('Internal server error');

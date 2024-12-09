@@ -148,7 +148,7 @@ class AdminDashboard extends React.Component {
                         <select name="role" defaultValue={user.role}>
                           <option value="admin">Admin</option>
                           <option value="student">Student</option>
-                          <option value="instructor">Instructor</option>
+                          <option value="teacher">Teacher</option>
                         </select>
                         <button type="submit" className="updateBtn">
                           Update
