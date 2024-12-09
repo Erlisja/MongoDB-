@@ -12,6 +12,7 @@ async function applyIndexes() {
         console.log('Connected to MongoDB');
 
         // Apply indexes
+        // this will ensure that the indexes are created, which will improve the performance of queries
         await User.createIndexes();
         console.log('Indexes ensured');
       
