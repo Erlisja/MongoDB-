@@ -34,6 +34,7 @@ routes.route('/login')
 
             // Store user ID in session
             req.session.userId = user._id;
+            req.session.role = user.role; 
 
             // Role-based redirection
             if (user.role === 'admin') {

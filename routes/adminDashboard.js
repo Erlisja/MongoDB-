@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = express.Router();
+const auth = require('../middleware/authentication'); // import the authentication middleware
 
 // import data
 const Student = require('../model/studentModel');
@@ -29,53 +30,48 @@ routes.get('/dashboard',async (req, res) => {
 });
 
 
+// Add a new course
+routes.post('/courses', async (req, res) => {
+  try {
+    const {course_id, name, description, credits, startDate } = req.body;
+    const newCourse = new Course({
+      course_id,
+      name,
+      description,
+      credits,
+      startDate
+    });
 
-
-    // const user = users.find(u => u.id === req.session.userId && u.role === 'admin');
-
-    // if (user) {
-    //     res.status(200).render('Admin/AdminDashboard', { user,courses, users, students });
-    // } else {
-    //     res.redirect('/system/admin/login');
-    // }
-//});
-
-
-// routes.route('/dashboard')
-// .get ((req, res) => {
-//     return res.json(courses);
-
-//     });
-
-
-
-    // GET: List courses with optional filtering
-routes.route("/courses")
-.get(async(req, res) => {
-  try{
-    const {instructor} = req.query;
-    
-   
-    // Filter courses by instructor if query is provided
-    const courses = instructor
-      ? await Course.find({ instructor })
-      : await Course.find();
-
-      res.json(courses);
-  }catch(error){
-    console.log('error during fetching courses', error);
+    await newCourse.save();
+    res.redirect('/system/admin/dashboard');
+  } catch (error) {
+    console.log('Error adding course:', error);
     res.status(500).send('Internal server error');
   }
 });
 
-  //   const { instructor } = req.query;
-  //   const filteredCourses = instructor
-  //     ? courses.filter((course) => course.instructor === instructor)
-  //     : courses;
-  //   res.json(filteredCourses);
-  // });
-  
+// Delete a course
+routes.route('/courses/:id')
+.delete(async (req, res) => {
+  console.log('Received course ID:', req.params.id); 
+  try {
+    const course_id = req.params.id;
+    const course = await Course.findByIdAndDelete(course_id);
 
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    // await course.remove();
+    res.redirect('/system/admin/dashboard');
+  } catch (error) {
+    console.log('Error deleting course:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
+
+ 
 
  // PATCH: Update a course description,staring date and credits
   routes.route("/courses/:id")
@@ -83,15 +79,15 @@ routes.route("/courses")
     try{
       const { id } = req.params;
       const { description, startDate, credits } = req.body;
-      const course = await Course.findByIdAndUpdate(
+      const updatedCourse = await Course.findByIdAndUpdate(
         id,
         { description, startDate, credits },
         { new: true, runValidators: true } // Returns the updated document
       );
   
-      if (course) {
-        const courses = await Course.find({}); // Fetch updated list of courses
-          res.render('Admin/AdminDashboard', { courses });
+      if (updatedCourse) {
+        res.redirect('/system/admin/dashboard');
+        
       } else {
         res.status(404).json({ error: "Course not found" });
       }
@@ -100,38 +96,21 @@ routes.route("/courses")
       res.status(500).send('Internal server error');
     }
   })
-  // routes.route("/courses/:id")
-  // .patch((req, res) => {
-  //   const { id } = req.params;
-  //   const { description, startDate, credits } = req.body;
-  //   const course = courses.find((course) => course.id === parseInt(id));
   
-  //   if (course) {
-  //       course.description = description;
-  //       course.startDate = startDate;
-  //       course.credits = credits;
-  //     res.render('Admin/AdminDashboard', { courses });
-  //   } else {
-  //     res.status(404).json({ error: "Course not found" });
-  //   }
-  //});
-  
-
   // PUT: Update a user's role
 routes.route("/users/:id")
 .put(async(req,res)=>{
   try{
     const { id } = req.params;
     const { role, username, email } = req.body;
-    const user = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
       { role, username, email },
       { new: true }
     );
 
-    if (user) {
-      const users = await User.find({}); // Fetch updated list of users
-      res.render('Admin/AdminDashboard', { users });
+    if (updatedUser) {
+      res.redirect('/system/admin/dashboard');
     } else {
       res.status(404).json({ error: "User not found" });
     }
@@ -141,30 +120,5 @@ routes.route("/users/:id")
   }
 })
 
-
-
-
-
-
-  // routes.route("/users/:id")
-  // .patch((req, res) => {
-  //   const { id } = req.params;
-  //   const { email, username, role } = req.body;
-  //   const user = users.find((user) => user.id === parseInt(id));
-  
-  //   if (user) {
-  //     user.email = email;
-  //     user.role = role;
-  //     user.username = username;
-  //   // Update the user in the array (find index based on id)
-  //   const index = users.findIndex((user) => user.id === parseInt(id));
-  //   users[index] = user;
-
-  //     res.render('Admin/AdminDashboard', { users });
-  //   } else {
-  //     res.status(404).json({ error: "User not found" });
-  //   }
-  // });
-  
 
 module.exports = routes;

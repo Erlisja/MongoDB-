@@ -1,16 +1,8 @@
 const React = require("react");
 
-
 class AdminDashboard extends React.Component {
   render() {
-    const {
-
-      courses,
-      users, 
-
-
-      
-    } = this.props;
+    const { courses, users } = this.props;
 
     return (
       <>
@@ -21,12 +13,12 @@ class AdminDashboard extends React.Component {
         <body>
           <header>
             <h1>Admin Dashboard</h1>
-               {/* logout button */}
-          <a href="/system/login">
-            <button id="logoutButton" type="button">
-              Logout
-            </button>
-          </a>
+            {/* logout button */}
+            <a href="/system/login">
+              <button id="logoutButton" type="button">
+                Logout
+              </button>
+            </a>
           </header>
           <main>
             <section className="admin-dashboard">
@@ -34,16 +26,18 @@ class AdminDashboard extends React.Component {
                 <h2>Courses</h2>
                 <ul>
                   {courses.map((course) => (
-                    <li key={course.id}>
+                    <li key={course._id}>
                       <h3>
                         <strong>{course.name}</strong>{" "}
                       </h3>
                       <span>{course.description}</span>
                       <form
-                        action={`/system/admin/courses/${course.id}?_method=PATCH`}
+                        action={`/system/admin/courses/${course._id}?_method=PATCH`}
                         method="POST"
                       >
-                        <label className="dashboard-label">Update Description:</label>
+                        <label className="dashboard-label">
+                          Update Description:
+                        </label>
                         <input
                           type="text"
                           id={`description-${course.id}`}
@@ -52,7 +46,9 @@ class AdminDashboard extends React.Component {
                           required
                         />
                         <br />
-                        <label className="dashboard-label">Update Credits:</label>
+                        <label className="dashboard-label">
+                          Update Credits:
+                        </label>
                         <input
                           type="number"
                           id={`credits-${course.id}`}
@@ -61,7 +57,9 @@ class AdminDashboard extends React.Component {
                           required
                         />
                         <br />
-                        <label className="dashboard-label">Update Start Date:</label>
+                        <label className="dashboard-label">
+                          Update Start Date:
+                        </label>
                         <input
                           type="date"
                           id={`startDate-${course.id}`}
@@ -69,30 +67,63 @@ class AdminDashboard extends React.Component {
                           defaultValue={course.startDate}
                           required
                         />
-
                         <button type="submit" className="updateBtn">
                           Update
+                        </button>
+                      </form>
+                      {/* Delete button form */}
+                      <form
+                        action={`/system/admin/courses/${course._id}?_method=DELETE`}
+                        method="POST"
+                        style={{ display: "inline" }}
+                      >
+                        <button type="submit" className="updateBtn">
+                          Delete Course
                         </button>
                       </form>
                     </li>
                   ))}
                 </ul>
               </div>
+              <div className="container-card">
+                <h3>Add New Course in the Database</h3>
+                <form action="/system/admin/courses" method="POST">
+                  <label className="dashboard-label">Course ID:</label>
+                  <input type="text" name="course_id" required />
+                  <br />
+
+                  <label className="dashboard-label">Course Name:</label>
+                  <input type="text" name="name" required />
+                  <br />
+                  <label className="dashboard-label">Description:</label>
+                  <input type="text" name="description" required />
+                  <br />
+                  <label className="dashboard-label">Credits:</label>
+                  <input type="number" name="credits" required />
+                  <br />
+                  <label className="dashboard-label">Start Date:</label>
+                  <input type="date" name="startDate" required />
+                  <br />
+                  <button type="submit" className="addBtn">
+                    Add Course
+                  </button>
+                </form>
+              </div>
 
               <div className="container-card">
                 <h2>Users</h2>
                 <ul>
                   {users.map((user) => (
-                    <li key={user.id}>
-                        <h3>
-                     <strong>{user.username}</strong>
-                     </h3>  {" "}
-                   <span> - {user.role}</span>
-                        <br />
-                        <span>{user.email}</span>
-                        <br />
+                    <li key={user._id}>
+                      <h3>
+                        <strong>{user.username}</strong>
+                      </h3>{" "}
+                      <span> - {user.role}</span>
+                      <br />
+                      <span>{user.email}</span>
+                      <br />
                       <form
-                        action={`/system/admin/users/${user.id}?_method=PATCH`}
+                        action={`/system/admin/users/${user._id}?_method=PUT`}
                         method="POST"
                       >
                         <label className="dashboard-label">Update Name:</label>
@@ -101,16 +132,16 @@ class AdminDashboard extends React.Component {
                           id={`name-${user.id}`}
                           name="username"
                           defaultValue={user.username}
-                          required  
+                          required
                         />
                         <br />
                         <label className="dashboard-label">Update Email:</label>
                         <input
-                            type="email"
-                            id={`email-${user.id}`}
-                            name="email"
-                            defaultValue={user.email}
-                            required
+                          type="email"
+                          id={`email-${user.id}`}
+                          name="email"
+                          defaultValue={user.email}
+                          required
                         />
                         <br />
                         <label className="dashboard-label">Update Role:</label>
